@@ -2,28 +2,41 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
+AcademicSurveysProject/.idea/**/workspace.xml
 .idea/**/workspace.xml
+AcademicSurveysProject/.idea/**/tasks.xml
 .idea/**/tasks.xml
+AcademicSurveysProject/.idea/dictionaries
 .idea/dictionaries
 
 # Sensitive or high-churn files:
+AcademicSurveysProject/.idea/**/dataSources/
 .idea/**/dataSources/
+AcademicSurveysProject/.idea/**/dataSources.ids
 .idea/**/dataSources.ids
+AcademicSurveysProject/.idea/**/dataSources.xml
 .idea/**/dataSources.xml
+AcademicSurveysProject/.idea/**/dataSources.local.xml
 .idea/**/dataSources.local.xml
+AcademicSurveysProject/.idea/**/sqlDataSources.xml
 .idea/**/sqlDataSources.xml
+AcademicSurveysProject/.idea/**/dynamic.xml
 .idea/**/dynamic.xml
+AcademicSurveysProject/.idea/**/uiDesigner.xml
 .idea/**/uiDesigner.xml
 
 # Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
+AcademicSurveysProject/.idea/**/gradle.xml
+AcademicSurveysProject/.idea/**/libraries
 
 # CMake
+AcademicSurveysProject/cmake-build-debug/
 cmake-build-debug/
+AcademicSurveysProject/cmake-build-release/
 cmake-build-release/
 
 # Mongo Explorer plugin:
+AcademicSurveysProject/.idea/**/mongoSettings.xml
 .idea/**/mongoSettings.xml
 
 ## File-based project format:
@@ -33,19 +46,27 @@ cmake-build-release/
 ## Plugin-specific files:
 
 # IntelliJ
+AcademicSurveysProject/out/
 out/
 
 # mpeltonen/sbt-idea plugin
+AcademicSurveysProject/.idea_modules/
 .idea_modules/
 
 # JIRA plugin
+AcademicSurveysProject/atlassian-ide-plugin.xml
 atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
+AcademicSurveysProject/.idea/replstate.xml
 .idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
+AcademicSurveysProject/com_crashlytics_export_strings.xml
 com_crashlytics_export_strings.xml
+AcademicSurveysProject/crashlytics.properties
 crashlytics.properties
+AcademicSurveysProject/crashlytics-build.properties
 crashlytics-build.properties
+AcademicSurveysProject/fabric.properties
 fabric.properties
