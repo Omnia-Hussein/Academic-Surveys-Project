@@ -2,31 +2,13 @@
 
 {% load widget_tweaks %}
 
-{% block title %}
-    Create Student
-{% endblock %}
-
 {% block content %}
-    <h2>Add Student</h2>
+    <h2>{{ form_name }}</h2>
     <form method="post">
         {% csrf_token %}
 
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
-        {% endfor %}
-
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-
-        {% for field in signup_form.visible_fields %}
-            <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field|add_class:'form-control' }}
-                {% for error in field.errors %}
-                    <span class="help-block">{{ error }}</span>
-                {% endfor %}
-            </div>
         {% endfor %}
 
         {% for field in form.visible_fields %}

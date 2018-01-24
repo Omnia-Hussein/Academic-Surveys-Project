@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Student list
+    Professor list
 {% endblock %}
 
 {% block content %}
 
     <h2>
-    Student
+    Professor
     <a href="{% url 'create' %}" class="btn btn-primary pull-right">
-      <span class="glyphicon glyphicon-plus"></span> Add Student
+      <span class="glyphicon glyphicon-plus"></span> Add Professor
     </a>
     </h2>
 
@@ -27,22 +27,16 @@
         </tr>
     </thead>
     <tbody>
-        {% for student in students %}
+        {% for prof in professors %}
         <tr>
-            <td>{{ student.user.id }}</td>
-            <td>{{ student.user.username }}</td>
-            <td>{{ student.id_number }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.mobile_number }}</td>
-            <td>{{ student.user.email }}</td>
-            <td>{{ student.secondary_email }}</td>
-            <td>
-                {% if student.type == 'fr' %}
-                    Fresh
-                {% else %}
-                    Other
-                {% endif %}
-            </td>
+            <td>{{ proft.user.id }}</td>
+            <td>{{ prof.user.username }}</td>
+            <td>{{ prof.id_number }}</td>
+            <td>{{ prof.name }}</td>
+            <td>{{ prof.mobile_number }}</td>
+            <td>{{ prof.user.email }}</td>
+            <td>{{ prof.secondary_email }}</td>
+
         </tr>
         {% empty %}
         <tr>
@@ -51,5 +45,4 @@
         {% endfor %}
     </tbody>
     </table>
-
 {% endblock %}

@@ -3,11 +3,11 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    Create Student
+    Create Professor
 {% endblock %}
 
 {% block content %}
-    <h2>Add Student</h2>
+    <h2>Add Professor</h2>
     <form method="post">
         {% csrf_token %}
 
@@ -43,7 +43,7 @@
             <button type="submit" class="btn btn-success">
                 <span class="glyphicon glyphicon-ok"></span> Save
             </button>
-            <a href="{% url 'student_index' %}" class="btn btn-default">Cancel</a>
+            <a href="{% url 'index' %}" class="btn btn-default">Cancel</a>
         </div>
     </form>
 {% endblock %}

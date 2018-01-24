@@ -26,5 +26,7 @@ urlpatterns = [
     url(r'^student/', include('Student.urls')),
 
     # # /professor/
-    # url(r'^professor/', include('Professor.urls')),
+    url(r'^professor/', include('Professor.urls')),
+##/   survey/
+    url(r'^survey/', include('Survey.urls')),
 ]

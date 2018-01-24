@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Student
+from .models import Professor
 
 
 class SignUpForm(UserCreationForm):
@@ -15,13 +15,12 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2', )
 
 
-class StudentForm(forms.ModelForm):
+class ProfForm(forms.ModelForm):
     class Meta:
-        model = Student
+        model = Professor
         fields = (
             'id_number',
             'name',
             'mobile_number',
             'secondary_email',
-            'type',
         )
