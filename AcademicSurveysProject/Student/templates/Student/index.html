@@ -17,6 +17,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Username</th>
             <th>ID number</th>
             <th>Name</th>
             <th>Mobile</th>
@@ -28,13 +29,20 @@
     <tbody>
         {% for student in students %}
         <tr>
+            <td>{{ student.user.id }}</td>
             <td>{{ student.user.username }}</td>
             <td>{{ student.id_number }}</td>
             <td>{{ student.name }}</td>
             <td>{{ student.mobile_number }}</td>
-            <td>{{ student.primary_email }}</td>
+            <td>{{ student.user.email }}</td>
             <td>{{ student.secondary_email }}</td>
-            <td>{{ student.type }}</td>
+            <td>
+                {% if student.type == 'fr' %}
+                    Fresh
+                {% else %}
+                    Other
+                {% endif %}
+            </td>
         </tr>
         {% empty %}
         <tr>

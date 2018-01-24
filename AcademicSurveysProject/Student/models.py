@@ -12,13 +12,7 @@ class Student(models.Model):
     id_number = models.CharField(
         max_length=30,
         unique=True,
-    )
-    username = models.CharField(
-        max_length=50,
-        unique=True,
-    )
-    password = models.CharField(
-        max_length=50,
+        verbose_name='ID number',
     )
     name = models.CharField(
         max_length=100,
@@ -26,9 +20,6 @@ class Student(models.Model):
     )
     mobile_number = models.CharField(
         max_length=15,
-    )
-    primary_email = models.EmailField(
-        max_length=100,
     )
     secondary_email = models.EmailField(
         max_length=100,
@@ -48,7 +39,3 @@ class Student(models.Model):
     @property
     def __str__(self):
         return self.name
-
-
-class Parent(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
