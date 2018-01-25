@@ -27,7 +27,9 @@ AcademicSurveysProject/.idea/**/uiDesigner.xml
 
 # Gradle:
 AcademicSurveysProject/.idea/**/gradle.xml
+.idea/**/gradle.xml
 AcademicSurveysProject/.idea/**/libraries
+.idea/**/libraries
 
 # CMake
 AcademicSurveysProject/cmake-build-debug/

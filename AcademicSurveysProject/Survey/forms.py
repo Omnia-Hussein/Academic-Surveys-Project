@@ -1,11 +1,5 @@
 from django import forms
-from .models import Survey, Question, Answer, User
-
-
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = (' is_student', ' is_teacher')
+from .models import Survey, Question, Answer
 
 
 class SurveyForm(forms.ModelForm):

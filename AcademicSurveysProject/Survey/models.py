@@ -1,15 +1,7 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
 from Student.models import Student
-
-
-# to know the user of the survey
-
-class User(AbstractUser):
-    is_student = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
 
 
 # class of survey

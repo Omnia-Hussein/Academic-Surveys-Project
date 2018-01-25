@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'Home',
     'Admin',
     'Student',
     'Professor',
@@ -121,3 +122,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "common-static"),
 ]
+
+# Custom Django auth settings
+
+AUTH_USER_MODEL = 'Home.User'

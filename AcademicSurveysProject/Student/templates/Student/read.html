@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+    Read student
+{% endblock %}
+
+{% block content %}
+
+    <h2>Read page for student {{ student.id }}</h2>
+
+    <div>
+        <strong>Student Id: </strong>
+        <span>{{ student.user.id }}</span>
+    </div>
+    <div>
+        <strong>Student Name: </strong>
+        <span>{{ student.Name }}</span>
+    </div>
+    <div>
+        <strong>Student Address: </strong>
+        <span>{{ student.address }}</span>
+    </div>
+    <div>
+        <strong>Academic year: </strong>
+        <span>{{ student.academic_year }}</span>
+    </div>
+    <div>
+        <strong>Mobile Number: </strong>
+        <span>{{ student.mobile_number }}</span>
+    </div>
+{% endblock %}

@@ -14,14 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.urls import path
 from Student import views
 
 urlpatterns = [
     # /student/
-    url(r'^$', views.index, name="student_index"),
+    url(r'^$', views.index, name="student_list"),
 
-    # # /student/15
+    # /student/15
     # url(r'^(?P<student_id>[0-9]+)$', views.read, name="read"),
+    path('<int:pk>', views.read),
 
     # /student/create
     url(r'^create$', views.create, name="create"),
