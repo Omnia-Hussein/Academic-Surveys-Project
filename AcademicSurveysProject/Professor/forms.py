@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from Home.models import User
 from .models import Professor
 
 
@@ -19,8 +19,5 @@ class ProfForm(forms.ModelForm):
     class Meta:
         model = Professor
         fields = (
-            'id_number',
-            'name',
-            'mobile_number',
             'secondary_email',
         )

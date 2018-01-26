@@ -7,5 +7,5 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = (
             'secondary_email',
-            'type',
+            'status',
         )

@@ -1,16 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
+from Course.models import Course
 
 
-# Professor Model
 class Professor(models.Model):
-    user = models.OneToOneField( User, primary_key=True,on_delete=models.CASCADE,)
-    id_number = models.CharField( max_length=30,unique=True, verbose_name='ID number', )
-    name = models.CharField(max_length=100, unique=True,)
-    mobile_number = models.CharField(max_length=15,)
-    secondary_email = models.EmailField( max_length=100,)
-
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        primary_key=True,
+        on_delete=models.CASCADE,
+    )
+    secondary_email = models.EmailField(
+        max_length=100,
+    )
+    courses = models.ManyToManyField(
+        Course,
+        related_name='professors',
+    )
 
     @property
     def __str__(self):
-        return self.name
+        return self.user.username
+
+
+@receiver(post_delete, sender=Professor)
+def post_delete_user(sender, instance, *args, **kwargs):
+    if instance.user:
+        instance.user.delete()

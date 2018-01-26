@@ -38,8 +38,17 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'Home',
     'Admin',
+    'Course',
+    'Answer',
+    'Survey',
     'Student',
+    'Question',
+    'Response',
+    'Template',
     'Professor',
+    'Department',
+    'AcademicYear',
+    'EducationalYear',
 ]
 
 MIDDLEWARE = [

@@ -18,15 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
-    # # /
     # url(r'^$', views.home, name='home'),
-
-    # /student/
     url(r'^student/', include('Student.urls')),
-
-    # # /professor/
     url(r'^professor/', include('Professor.urls')),
-##/   survey/
-    url(r'^survey/', include('Survey.urls')),
+    # url(r'^survey/', include('Survey.urls')),
 ]
