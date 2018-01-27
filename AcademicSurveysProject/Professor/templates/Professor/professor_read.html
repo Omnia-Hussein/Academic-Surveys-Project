@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Professor list
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+    Professor #{{ professor.user.id_number }}
+    <a href="{% url 'professor:update' professor.user.id_number %}" class="btn btn-primary pull-right">
+      <span class="glyphicon glyphicon-pencil"></span> Update
+    </a>
+    </h2>
+
+    <table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Username</th>
+            <td>{{ professor.user.username }}</td>
+        </tr>
+        <tr>
+            <th>ID number</th>
+            <td>{{ professor.user.id_number }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ professor.user.name }}</td>
+        </tr>
+        <tr>
+            <th>Mobile number</th>
+            <td>{{ professor.user.mobile_number }}</td>
+        </tr>
+        <tr>
+            <th>Primary email</th>
+            <td>{{ professor.user.email }}</td>
+        </tr>
+        <tr>
+            <th>Secondary email</th>
+            <td>{{ professor.secondary_email }}</td>
+        </tr>
+        <tr>
+            <th>Courses</th>
+            <td>{{ professor.user.courses }}</td>
+        </tr>
+        <tr>
+            <th>Surveys</th>
+            <td>{{ professor.surveys }}</td>
+        </tr>
+    </tbody>
+    </table>
+{% endblock %}

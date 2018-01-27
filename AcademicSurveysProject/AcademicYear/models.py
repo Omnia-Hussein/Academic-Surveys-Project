@@ -1,19 +1,20 @@
 from django.db import models
 
+PREPARATORY = 'pr'
+FIRST = 'fi'
+SECOND = 'se'
+THIRD = 'th'
+FORTH = 'fo'
+YEAR_CHOICES = (
+    (PREPARATORY, 'Preparatory'),
+    (FIRST, 'First'),
+    (SECOND, 'Second'),
+    (THIRD, 'Third'),
+    (FORTH, 'Forth'),
+)
+
 
 class AcademicYear(models.Model):
-    PREPARATORY = 'pr'
-    FIRST = 'fi'
-    SECOND = 'se'
-    THIRD = 'th'
-    FORTH = 'fo'
-    YEAR_CHOICES = (
-        (PREPARATORY, 'Preparatory'),
-        (FIRST, 'First'),
-        (SECOND, 'Second'),
-        (THIRD, 'Third'),
-        (FORTH, 'Forth'),
-    )
     year = models.CharField(
         max_length=2,
         choices=YEAR_CHOICES,
@@ -23,4 +24,4 @@ class AcademicYear(models.Model):
 
     @property
     def __str__(self):
-        return AcademicYear.YEAR_CHOICES[self.year]
+        return YEAR_CHOICES[self.year]

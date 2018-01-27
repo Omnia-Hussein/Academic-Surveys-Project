@@ -1,35 +1,106 @@
-from django.shortcuts import render, redirect
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
+from django.urls import reverse
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSet
+from extra_views.generic import GenericInlineFormSet
+from django.conf import settings
 from .models import Professor
-from .forms import ProfForm, SignUpForm
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from .forms import ProfessorForm
+from Home.forms import UserCreate, UserUpdate
+#
+# class ItemInline(InlineFormSet):
+#     model = settings.AUTH_USER_MODEL
+#     fields = '__all__'
+#
+#
+# class TagInline(GenericInlineFormSet):
+#     model = settings.AUTH_USER_MODEL
+#     fields = '__all__'
+#
+#
+# class CreateProfessorView(CreateWithInlinesView):
+#     model = Professor
+#     inlines = [ItemInline]
+#     fields = '__all__'
+
+#
+# class ProfessorCreate(CreateView):
+#     model = Professor
+#     fields = '__all__'
 
 
-# Create your views here.
-# region Create
-def create(request):
-    if request.method == 'POST':
-        signup_form = SignUpForm(request.POST)
-        form = ProfForm(request.POST)
-        if signup_form.is_valid() and form.is_valid():
-            user = signup_form.save()
-            Professor.objects.create(
-                user=user,
-                id_number=form.cleaned_data['id_number'],
-                name=form.cleaned_data['name'],
-                mobile_number=form.cleaned_data['mobile_number'],
-                secondary_email=form.cleaned_data['secondary_email'],
+class ProfessorRead(DetailView):
+    model = Professor
+    template_name = 'Professor/professor_read.html'
+    slug_field = 'user__id_number'
 
-            )
+
+class ProfessorList(ListView):
+    model = Professor
+    template_name = 'Professor/professor_list.html'
+
+
+class ProfessorCreate(SuccessMessageMixin, CreateView):
+    """
+    Creates new Professor along with associated user
+    """
+    template_name = 'Professor/professor_form.html'
+    form_class = ProfessorForm
+    second_form_class = UserCreate
+    success_message = 'Professor profile saved successfully'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfessorCreate, self).get_context_data(**kwargs)
+        if 'user_form' not in context:
+            context['user_form'] = self.second_form_class
+        return context
+
+    def form_valid(self, form):
+        user_form = UserCreate(self.request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            professor = form.save(commit=False)
+            professor.user = user
+            professor.user.is_professor = True
+            professor.save()
             user.save()
-            return redirect('professor_index')
-    else:
-        signup_form = SignUpForm()
-        form = ProfForm()
-    return render(request, 'create.html', {'signup_form': signup_form, 'form': form})
-# endregion
+        else:
+            return self.form_invalid(form)
+        return redirect(self.success_url)
+
+    def form_invalid(self, form):
+        user_form = UserCreate(self.request.POST)
+        return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
 
 
-# region index
-def index(request):
-    Professors = Professor.objects.all()
-    return render(request, "index.html", {"Professors": Professors})
-# endregion
+class ProfessorUpdate(SuccessMessageMixin, UpdateView):
+    """
+    Update teacher profile along with associated user
+    """
+    model = Professor
+    template_name = 'Professor/professor_update.html'
+    form_class = ProfessorForm
+    second_form_class = UserUpdate
+    success_message = 'Professor profile saved successfully'
+    slug_field = 'user__id_number'
+
+    def get_success_url(self):
+        return reverse('professor:read', kwargs={'slug': str(self.object.user.id_number), })
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfessorUpdate, self).get_context_data(**kwargs)
+        context['user_form'] = self.second_form_class(self.request.POST or None, instance=self.object.user)
+        return context
+
+    def form_valid(self, form):
+        user_form = UserUpdate(self.request.POST, instance=self.object.user)
+        if user_form.is_valid():
+            user_form.save()
+        else:
+            return self.form_invalid(form)
+        return super(ProfessorUpdate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        user_form = UserCreate(self.request.POST)
+        return self.render_to_response(self.get_context_data(form=form, user_form=user_form))

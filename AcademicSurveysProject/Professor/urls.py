@@ -1,18 +1,10 @@
 from django.conf.urls import url
-from Professor import views
+from .views import ProfessorList, ProfessorRead, ProfessorCreate, ProfessorUpdate
+
+app_name = 'professor'
 urlpatterns = [
-    # /student/
-    url(r'^$', views.index, name="student_index"),
-
-    # # /student/15
-    # url(r'^(?P<student_id>[0-9]+)$', views.read, name="read"),
-
-    # /student/create
-    url(r'^create$', views.create, name="create"),
-
-    # # /student/15/edit
-    # url(r'^(?P<st_id>[0-9]+)/edit$', views.update, name="update"),
-    #
-    # # /student/15/delete
-    # url(r'^(?P<st_id>[0-9]+)/delete$', views.delete, name="delete"),
+    url(r'^$', ProfessorList.as_view(), name="list"),
+    url(r'^(?P<slug>\d+)$', ProfessorRead.as_view(), name="read"),
+    url(r'^create$', ProfessorCreate.as_view(success_url='professor:list'), name="create"),
+    url(r'^(?P<slug>\d+)/update$', ProfessorUpdate.as_view(), name="update"),
 ]

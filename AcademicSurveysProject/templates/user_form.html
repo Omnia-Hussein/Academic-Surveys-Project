@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+
+{% for hidden in user_form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% for field in user_form.visible_fields %}
+    {% if field.label != 'Password' %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endfor %}

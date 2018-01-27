@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
+from django.urls import reverse
+
 from Course.models import Course
 
 
@@ -17,6 +19,7 @@ class Professor(models.Model):
     courses = models.ManyToManyField(
         Course,
         related_name='professors',
+        blank=True,
     )
 
     @property

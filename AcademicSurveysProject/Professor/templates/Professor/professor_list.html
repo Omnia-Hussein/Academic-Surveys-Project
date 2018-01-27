@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Professor list
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+    Professor list
+    <a href="{% url 'professor:create' %}" class="btn btn-primary pull-right">
+      <span class="glyphicon glyphicon-plus"></span> Add Professor
+    </a>
+    </h2>
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID number</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Primary email</th>
+        </tr>
+    </thead>
+    <tbody data-link="row" class="rowlink">
+        {% for professor in professor_list %}
+            <td><a href="{% url 'professor:read' professor.user.id_number %}">{{ professor.user.id_number }}</a></td>
+            <td>{{ professor.user.username }}</td>
+            <td>{{ professor.user.name }}</td>
+            <td>{{ professor.user.mobile_number }}</td>
+            <td>{{ professor.user.email }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No result</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
