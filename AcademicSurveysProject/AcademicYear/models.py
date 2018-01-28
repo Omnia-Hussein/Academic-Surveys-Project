@@ -22,6 +22,5 @@ class AcademicYear(models.Model):
         unique=True,
     )
 
-    @property
     def __str__(self):
-        return YEAR_CHOICES[self.year]
+        return dict(YEAR_CHOICES).get(self.year)

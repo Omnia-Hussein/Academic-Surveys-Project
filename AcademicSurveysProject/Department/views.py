@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from .models import Department
+from django.views.generic import CreateView
 
-# Create your views here.
+
+class DepartmentCreate(CreateView):
+    model = Department
+    fields = ('name',)
+    template_name = 'Department/department_form.html'

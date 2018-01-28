@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from .models import AcademicYear
+from django.views.generic import CreateView
 
-# Create your views here.
+
+class AcademicYearCreate(CreateView):
+    model = AcademicYear
+    fields = ('year',)
+    template_name = 'AcademicYear/academic_year_form.html'

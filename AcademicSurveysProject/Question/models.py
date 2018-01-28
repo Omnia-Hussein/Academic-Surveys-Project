@@ -87,7 +87,7 @@ class Question(models.Model):
     class Meta(object):
         verbose_name = _('question')
         verbose_name_plural = _('questions')
-        ordering = ('survey', 'order')
+        ordering = ('order',)
 
     def save(self, *args, **kwargs):
         if self.type in [Question.RADIO, Question.SELECT,

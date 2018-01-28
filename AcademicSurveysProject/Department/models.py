@@ -7,6 +7,5 @@ class Department(models.Model):
         unique=True,
     )
 
-    @property
     def __str__(self):
         return self.name

@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from .models import Course
+from django.views.generic import CreateView
 
-# Create your views here.
+
+class CourseCreate(CreateView):
+    model = Course
+    fields = ('name', 'code', 'academic_year', 'department',)
+    template_name = 'Course/course_form.html'

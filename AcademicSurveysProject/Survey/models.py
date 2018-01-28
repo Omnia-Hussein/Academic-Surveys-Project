@@ -14,9 +14,7 @@ class Survey(models.Model):
     creation_date = models.DateTimeField(
         auto_now_add=True,
     )
-    due_date = models.DateTimeField(
-        auto_now=True,
-    )
+    due_date = models.DateTimeField()
     is_active = models.BooleanField(
         default=True,
     )

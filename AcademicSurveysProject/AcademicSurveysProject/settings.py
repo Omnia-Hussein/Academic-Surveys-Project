@@ -24,7 +24,7 @@ SECRET_KEY = 'uq01m^!uch0iqfklqmctie9(=r%nd0+s_qrl+hc94e&uo8wb#g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'extra_views',
+    'crispy_forms',
     'widget_tweaks',
     'Home',
     'Admin',
@@ -124,6 +125,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_INPUT_FORMATS = [
+    '%d/%m/%Y',
+]
+
+DATETIME_INPUT_FORMATS = [
+    '%d/%m/%Y %H:%M',
+]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -136,3 +145,15 @@ STATICFILES_DIRS = [
 # Custom Django auth settings
 
 AUTH_USER_MODEL = 'Home.User'
+
+LOGIN_URL = 'login'
+
+LOGOUT_URL = 'logout'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
+
+# Third party apps configuration
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

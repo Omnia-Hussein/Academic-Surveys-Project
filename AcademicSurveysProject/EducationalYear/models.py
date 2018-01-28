@@ -2,12 +2,8 @@ from django.db import models
 
 
 class EducationalYear(models.Model):
-    start_year = models.IntegerField(
-        max_length=4,
-    )
-    end_year = models.IntegerField(
-        max_length=4,
-    )
+    start_year = models.PositiveSmallIntegerField()
+    end_year = models.PositiveSmallIntegerField()
 
     class Meta:
         unique_together = (
@@ -15,6 +11,6 @@ class EducationalYear(models.Model):
             'end_year',
         )
 
-    @property
     def __str__(self):
-        return '%s/%s' % (self.start_year, self.end_year)
+        # return "{}/{}".format(self.start_year, self.end_year,)
+        return '%d/%d' % (self.start_year, self.end_year)

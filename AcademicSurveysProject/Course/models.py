@@ -23,3 +23,6 @@ class Course(models.Model):
     is_active = models.BooleanField(
         default=True,
     )
+
+    def __str__(self):
+        return self.name

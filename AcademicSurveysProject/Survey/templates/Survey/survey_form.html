@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Create survey
+{% endblock %}
+
+{#{% block content %}#}
+{#<h1>Order and Items</h1>#}
+{#<form method="post">#}
+{#{% csrf_token %}#}
+{#{{ form }}#}
+{##}
+{#{% for formset in inlines %}#}
+{##}
+{#{{ formset }}#}
+{##}
+{#{% endfor %}#}
+{##}
+{##}
+{#<input type="submit" value="Submit" />#}
+{##}
+{#</form>#}
+{#{% endblock %}#}
+
+{#{% block content %}#}
+{#    <h2>Add survey</h2>#}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{##}
+{#        {{ form|crispy }}#}
+{##}
+{#        {% for formset in inlines %}#}
+{#            {{ formset }}#}
+{#            {% include 'form.html' with form=formset %}#}
+{#        {% endfor %}#}
+{##}
+{#        <div class="form-group">#}
+{#            <button type="submit" class="btn btn-success">#}
+{#                <span class="glyphicon glyphicon-ok"></span> Save#}
+{#            </button>#}
+{#            <a href="{% url 'professor:create' %}" class="btn btn-default">Cancel</a>#}
+{#        </div>#}
+{#    </form>#}
+{#{% endblock %}#}
+
+{% block content %}
+    <h2>Add survey</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+{#            {% include 'form.html' with form=form %}#}
+        {{ form|crispy }}
+{##}
+{#        {{ questions.management_form|crispy }}#}
+{#        {% for form in questions %}#}
+{#            {% crispy form %}#}
+{#        {% endfor %}#}
+        <table class="table">
+            {{ questions.management_form }}
+
+            {% for form in questions.forms %}
+                {% if forloop.first %}
+                    <thead>
+                    <tr>
+                        {% for field in form.visible_fields %}
+                            <th>{{ field.label|capfirst }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                {% endif %}
+                <tr class="{% cycle 'row1' 'row2' %} formset_row">
+                    {% for field in form.visible_fields %}
+                        <td>
+{#                             Include the hidden fields in the form#}
+{#                            {% if forloop.first %}#}
+{#                                {% for hidden in form.hidden_fields %}#}
+{#                                    {{ hidden }}#}
+{#                                {% endfor %}#}
+{#                            {% endif %}#}
+{#                            {{ field }}#}
+{#                            {{ field.errors.as_ul }}#}
+                            {{ field|add_class:'form-control' }}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span> Save
+            </button>
+            <a href="{% url 'survey:list' %}" class="btn btn-default">Back to the list</a>
+        </div>
+    </form>
+    {% block js %}
+        <script src="{% static 'js/jquery.formset.js' %}"></script>
+        <script type="text/javascript">
+            $('.formset_row').formset({
+                prefix: 'questions',             // The form prefix for your django formset
+{#                formTemplate: null,              // The jQuery selection cloned to generate new form instances#}
+                addText: 'Add question',         // Text for the add link
+                deleteText: 'Remove',            // Text for the delete link
+                addCssClass: 'btn btn-primary',  // CSS class applied to the add link
+                deleteCssClass: 'btn btn-danger',// CSS class applied to the delete link
+{#                formCssClass: 'dynamic-form',    // CSS class applied to each form in a formset#}
+{#                extraClasses: [],                // Additional CSS classes, which will be applied to each form in turn#}
+{#                keepFieldValues: '',             // jQuery selector for fields whose values should be kept when the form is cloned#}
+{#                added: null,                     // Function called each time a new form is added#}
+{#                removed: null,                   // Function called each time a form is deleted#}
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
