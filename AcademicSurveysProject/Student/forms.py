@@ -8,4 +8,7 @@ class StudentForm(forms.ModelForm):
         fields = (
             'secondary_email',
             'status',
+            'educational_year',
+            'academic_year',
+            'department',
         )

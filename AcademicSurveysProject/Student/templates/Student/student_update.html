@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Update professor
+{% endblock %}
+
+{% block content %}
+    <h2>
+    Update student #{{ student.user.id_number }}
+    <a href="/" class="btn btn-primary pull-right">
+      <span class="glyphicon glyphicon-pencil"></span> Change password
+    </a>
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+
+        {% include 'user_form.html' %}
+        {% include 'form.html' %}
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span> Save
+            </button>
+
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

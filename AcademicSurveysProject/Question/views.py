@@ -11,12 +11,3 @@ from .models import Question, Survey
 # class QuestionTemplateInline(InlineFormSet):
 #     model = Question
 #     fields = ['order', 'body', 'type', 'required', 'choices', 'template']
-
-
-class QuestionForm(ModelForm):
-    class Meta:
-        model = Question
-        fields = ['order', 'body', 'type', 'required', 'choices', 'survey']
-
-
-QuestionFormSet = inlineformset_factory(Survey, Question, form=QuestionForm, extra=1, can_delete=True)

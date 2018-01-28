@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^admin/', admin.site.urls),
     # url(r'^$', views.home, name='home'),
-    # url(r'^student/', include('Student.urls')),
+    url(r'^student/', include('Student.urls')),
     url(r'^professor/', include('Professor.urls')),
     url(r'^survey/', include('Survey.urls')),
     url(r'^academic_year/', include('AcademicYear.urls')),

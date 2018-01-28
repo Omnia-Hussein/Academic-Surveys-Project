@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Response list
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+    Response list
+{#    <a href="{% url 'response:create' %}" class="btn btn-primary pull-right">#}
+{#      <span class="glyphicon glyphicon-plus"></span> Add survey#}
+{#    </a>#}
+    </h2>
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Creation date</th>
+            <th>Update date</th>
+            <th>Survey</th>
+            <th>Student</th>
+        </tr>
+    </thead>
+    <tbody data-link="row" class="rowlink">
+        {% for response in response_list %}
+            <td><a href="{% url 'professor:read' response.id %}">{{ response.id }}</a></td>
+            <td>{{ response.creation_date }}</td>
+            <td>{{ response.update_date }}</td>
+            <td>{{ response.survey }}</td>
+            <td>{{ response.student }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No result</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

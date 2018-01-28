@@ -1,66 +1,86 @@
-# from django.shortcuts import render, redirect
-# from .models import Student
-# from .forms import StudentForm
-# from Home.forms import UserForm
-#
-#
-# # Create your views here.
-# # region Create
-# def create(request):
-#     if request.method == 'POST':
-#         signup_form = UserForm(request.POST)
-#         form = StudentForm(request.POST)
-#         if signup_form.is_valid() and form.is_valid():
-#             user = signup_form.save()
-#             Student.objects.create(
-#                 user=user,
-#                 secondary_email=form.cleaned_data['secondary_email'],
-#                 type=form.cleaned_data['type'],
-#             )
-#             user.save()
-#             return redirect('student_list')
-#     else:
-#         signup_form = UserForm()
-#         form = StudentForm()
-#     return render(request, 'Student/create.html', {'user_form': signup_form, 'form': form})
-# # endregion
-#
-#
-# # region index
-# def index(request):
-#     students = Student.objects.all()
-#     return render(request, "Student/list.html", {"students": students})
-# # endregion
-#
-#
-# # region Details
-# def read(request, student_id_number):
-#     student = Student.objects.get(id_number=student_id_number)
-#     # student = Student.objects.filter(id=student_id).first()
-#     return render(request, "Student/read.html", {"student": student})
-# # endregion
-#
-#
-# # # region Update
-# # def edit(request, st_id):
-# #     if request.method == 'GET':
-# #         student = Student.objects.filter(id=st_id).first()
-# #         return render(request, "Student/edit.html", {"student": student})
-# #     else:
-# #         old = Student.objects.get(id=st_id)
-# #         st = StudentForm(request.POST)
-# #         old.name = st['name'].value()
-# #         old.address = st['address'].value()
-# #         old.academic_year = st['academic_year'].value()
-# #         old.mobile_number = st['mobile_number'].value()
-# #
-# #         old.save()
-# #         return redirect("st_index")
-# # # endregion
-# #
-# #
-# # # region Delete
-# # def delete(request, st_id):
-# #     Student.objects.get(id=st_id).delete()
-# #     return redirect("st_index")
-# # # endregion
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
+from django.urls import reverse
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSet
+from extra_views.generic import GenericInlineFormSet
+from django.conf import settings
+from .models import Student
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from .forms import StudentForm
+from Home.forms import UserCreate, UserUpdate
+
+
+class StudentRead(DetailView):
+    model = Student
+    template_name = 'Student/student_read.html'
+    slug_field = 'user__id_number'
+
+
+class StudentList(ListView):
+    model = Student
+    template_name = 'Student/student_list.html'
+
+
+class StudentCreate(SuccessMessageMixin, CreateView):
+    """
+    Creates new Student along with associated user
+    """
+    template_name = 'Student/student_form.html'
+    form_class = StudentForm
+    second_form_class = UserCreate
+    success_message = 'Student profile saved successfully'
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentCreate, self).get_context_data(**kwargs)
+        if 'user_form' not in context:
+            context['user_form'] = self.second_form_class
+        return context
+
+    def form_valid(self, form):
+        user_form = UserCreate(self.request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            student = form.save(commit=False)
+            student.user = user
+            student.user.is_student = True
+            student.save()
+            user.save()
+        else:
+            return self.form_invalid(form)
+        return redirect(self.success_url)
+
+    def form_invalid(self, form):
+        user_form = UserCreate(self.request.POST)
+        return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
+
+
+class StudentUpdate(SuccessMessageMixin, UpdateView):
+    """
+    Update teacher profile along with associated user
+    """
+    model = Student
+    template_name = 'Professor/professor_update.html'
+    form_class = StudentForm
+    second_form_class = UserUpdate
+    success_message = 'Student profile saved successfully'
+    slug_field = 'user__id_number'
+
+    def get_success_url(self):
+        return reverse('student:read', kwargs={'slug': str(self.object.user.id_number), })
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentUpdate, self).get_context_data(**kwargs)
+        context['user_form'] = self.second_form_class(self.request.POST or None, instance=self.object.user)
+        return context
+
+    def form_valid(self, form):
+        user_form = UserUpdate(self.request.POST, instance=self.object.user)
+        if user_form.is_valid():
+            user_form.save()
+        else:
+            return self.form_invalid(form)
+        return super(StudentUpdate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        user_form = UserCreate(self.request.POST)
+        return self.render_to_response(self.get_context_data(form=form, user_form=user_form))

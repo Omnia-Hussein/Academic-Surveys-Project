@@ -6,7 +6,7 @@ from extra_views import CreateWithInlinesView
 from .models import Survey
 from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
-from Question.views import QuestionFormSet
+from Question.forms import QuestionFormSet
 
 
 # class SurveyCreate(CreateWithInlinesView):

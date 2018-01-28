@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{#{% load widget_tweaks %}#}
+
+{% block title %}
+    Create student
+{% endblock %}
+
+{% block content %}
+    <h2>Add student</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {{ user_form|crispy }}
+        {{ form|crispy }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span> Save
+            </button>
+            <a href="{% url 'student:create' %}" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+{% endblock %}
