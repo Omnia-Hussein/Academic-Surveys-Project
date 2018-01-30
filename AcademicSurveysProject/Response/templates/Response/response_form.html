@@ -1,11 +1,30 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% load index %}
 
 {% block title %}
-    Create survey
+    Fill survey
+{% endblock %}
+
+{% block css-files %}
+    <style>
+        .im2 {
+            background-image: url('{% static 'images/emoji5.png' %}');
+            background-size: 64px 64px;
+            background-repeat: no-repeat;
+            width: 64px;
+            height: 64px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .rate-base-layer span {
+            opacity: 0.5;
+        }
+    </style>
 {% endblock %}
 
 {#{% block content %}#}
@@ -48,7 +67,10 @@
 {#{% endblock %}#}
 
 {% block content %}
-    <h2>Add survey</h2>
+    <h2>{{ survey.name }}</h2>
+    <h3>Due date: {{ survey.due_date }}</h3>
+    <h4>Description: {{ survey.description }}</h4>
+    <h4>For course: {{ survey.course }}</h4>
     <form method="post" novalidate>
         {% csrf_token %}
         <table class="table">
@@ -73,10 +95,12 @@
         {#                            {% endif %}#}
         {#                            {{ field }}#}
         {#                            {{ field.errors.as_ul }}#}
-                                    {{ field|add_class:'form-control' }}
-                                    {% for error in field.errors %}
-                                        <span class="help-block">{{ error }}</span>
-                                    {% endfor %}
+                                    {{ field|add_class:'hidden' }}
+                                    {#                                    {{ field|add_class:'form-control' }}#}
+                                    <div id="rate-{{ field.auto_id }}"></div>
+                                    {#                                    {% for error in field.errors %}#}
+                                    {#                                        <span class="help-block">{{ error }}</span>#}
+                                    {#                                    {% endfor %}#}
                                 </td>
                         {% endfor %}
                     {% endwith %}
@@ -90,4 +114,42 @@
             <a href="{% url 'response:list' %}" class="btn btn-default">Back to the list</a>
         </div>
     </form>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/rater.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            {% for form in answers.forms %}
+                {% for field in form.visible_fields %}
+                    $("#rate-{{ field.auto_id }}").rate({
+                        selected_symbol_type: 'image2',
+                        max_value: 5,
+                        step_size: 1,
+                        update_input_field_name: $("#{{ field.auto_id }}"),
+                        only_select_one_symbol: true,
+                        symbols: {
+                            image2: {
+                                base: ['<div style="background-image: url(\'{% static 'images/emoji1.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji2.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji3.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji4.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji5.png' %}\');" class="im2">&nbsp;</div>',],
+                                hover: ['<div style="background-image: url(\'{% static 'images/emoji1.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji2.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji3.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji4.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji5.png' %}\');" class="im2">&nbsp;</div>',],
+                                selected: ['<div style="background-image: url(\'{% static 'images/emoji1.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji2.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji3.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji4.png' %}\');" class="im2">&nbsp;</div>',
+                                    '<div style="background-image: url(\'{% static 'images/emoji5.png' %}\');" class="im2">&nbsp;</div>',],
+                            },
+                        },
+                    });
+                {% endfor %}
+            {% endfor %}
+        });
+    </script>
 {% endblock %}

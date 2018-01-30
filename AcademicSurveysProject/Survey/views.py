@@ -1,9 +1,10 @@
 from django.db import transaction
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
 from Question.forms import QuestionFormSet
-# from .forms import SurveyForm, QuestionForm
 from .models import Survey
 
 
@@ -95,3 +96,21 @@ class SurveyQuestionUpdate(UpdateView):
                 questions.instance = self.object
                 questions.save()
         return super(SurveyQuestionUpdate, self).form_valid(form)
+
+
+class SurveyRead(View):
+    def get(self, request, *args, **kwargs):
+        survey = get_object_or_404(Survey, pk=kwargs['pk'])
+        questions = survey.questions.all()
+        answers = []
+        for question in questions:
+            temp = []
+            for i in range(6):
+                temp += [question.answers.filter(body=str(i)).count()]
+            answers += [temp]
+        context = {
+            'survey': survey,
+            'questions': questions,
+            'answers': answers,
+        }
+        return render(request, 'Survey/survey_read.html', context)

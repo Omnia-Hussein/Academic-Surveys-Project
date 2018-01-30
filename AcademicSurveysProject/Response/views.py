@@ -1,6 +1,5 @@
-from django.conf import settings
 from django.db import transaction
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView
 
 from Answer.forms import AnswerFormSet
@@ -18,28 +17,29 @@ class ResponseAnswerCreate(CreateView):
     model = Response
     fields = []
 
-    def get(self, request, *args, **kwargs):
-        """
-        Handles GET requests and instantiates a blank version of the form.
-        """
-        if request.user.is_authenticated():
-            if request.user.is_student:
-                if Response.objects.get(survey_id=self.kwargs['id'], student_id=request.user.id):
-                    return redirect('response:list')
-                else:
-                    return self.render_to_response(self.get_context_data())
-            # TODO: add page to redirect if processor or admin
-        return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+    # def get(self, request, *args, **kwargs):
+    #     """
+    #     Handles GET requests and instantiates a blank version of the form.
+    #     """
+    #     if request.user.is_authenticated():
+    #         if request.user.is_student:
+    #             if Response.objects.get(survey_id=self.kwargs['id'], student_id=request.user.id):
+    #                 return redirect('response:list')
+    #             else:
+    #                 return self.render_to_response(self.get_context_data())
+    #         # TODO: add page to redirect if processor or admin
+    #     return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
 
     def get_context_data(self, **kwargs):
-        context = {'questions': Question.objects.filter(survey_id=self.kwargs['id']).all()}
+        context = {'questions': Question.objects.filter(survey_id=self.kwargs['id']).all(),
+                   'survey': get_object_or_404(Survey, pk=self.kwargs['id'])}
         # context = super(ResponseAnswerCreate, self).get_context_data(**kwargs)
         if self.request.POST:
             context['answers'] = AnswerFormSet(self.request.POST)
         else:
             initial = []
             count = []
-            number = Survey.objects.get(id=self.kwargs['id']).questions.count()
+            number = context['survey'].questions.count()
             for i in range(number):
                 initial += [{'body': ''}]
                 count += [i]
@@ -59,7 +59,8 @@ class ResponseAnswerCreate(CreateView):
             if answers.is_valid():
                 answers.instance = self.object
                 instances = answers.save(commit=False)
-                questions = Survey.objects.get(id=self.kwargs['id']).questions.all()
+                # questions = Survey.objects.get(id=self.kwargs['id']).questions.all()
+                questions = context['survey'].questions.all()
                 for answer, question in zip(instances, questions):
                     answer.question_id = question.id
                 answers.save()
