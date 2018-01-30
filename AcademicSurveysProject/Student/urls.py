@@ -1,4 +1,5 @@
 from django.conf.urls import url
+
 from .views import StudentList, StudentRead, StudentCreate, StudentUpdate
 
 app_name = 'student'

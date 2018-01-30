@@ -25,6 +25,7 @@
     </thead>
     <tbody data-link="row" class="rowlink">
         {% for response in response_list %}
+            <tr>
             <td><a href="{% url 'professor:read' response.id %}">{{ response.id }}</a></td>
             <td>{{ response.creation_date }}</td>
             <td>{{ response.update_date }}</td>

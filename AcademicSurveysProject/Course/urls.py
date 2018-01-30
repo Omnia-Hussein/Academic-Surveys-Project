@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.urls import reverse
+
 from .views import CourseCreate
 
 app_name = 'course'

@@ -24,6 +24,7 @@
     </thead>
     <tbody data-link="row" class="rowlink">
         {% for survey in survey_list %}
+            <tr>
             <td><a href="{% url 'professor:read' survey.id %}">{{ survey.id }}</a></td>
             <td>{{ survey.name }}</td>
             <td>{{ survey.professor }}</td>

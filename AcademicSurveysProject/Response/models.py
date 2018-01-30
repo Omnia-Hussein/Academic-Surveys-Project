@@ -11,8 +11,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from future import standard_library
 
-from Survey.models import Survey
 from Student.models import Student
+from Survey.models import Survey
 
 standard_library.install_aliases()
 

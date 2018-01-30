@@ -1,7 +1,8 @@
 from django.db import models
-from Professor.models import Professor
-from EducationalYear.models import EducationalYear
+
 from Course.models import Course
+from EducationalYear.models import EducationalYear
+from Professor.models import Professor
 
 
 class Survey(models.Model):

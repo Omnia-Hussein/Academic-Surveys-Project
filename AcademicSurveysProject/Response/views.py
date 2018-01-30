@@ -2,10 +2,11 @@ from django.conf import settings
 from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView
+
+from Answer.forms import AnswerFormSet
 from Question.models import Question
 from Survey.models import Survey
 from .models import Response
-from Answer.forms import AnswerFormSet
 
 
 class ResponseList(ListView):

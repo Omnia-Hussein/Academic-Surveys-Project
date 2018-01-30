@@ -1,4 +1,5 @@
 from django.conf.urls import url
+
 from .views import ProfessorList, ProfessorRead, ProfessorCreate, ProfessorUpdate
 
 app_name = 'professor'

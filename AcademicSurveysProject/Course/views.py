@@ -1,5 +1,6 @@
-from .models import Course
 from django.views.generic import CreateView
+
+from .models import Course
 
 
 class CourseCreate(CreateView):

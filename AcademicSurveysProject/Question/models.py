@@ -14,8 +14,8 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from future import standard_library
 
-from Template.models import Template
 from Survey.models import Survey
+from Template.models import Template
 
 try:  # pragma: no cover
     from _collections import OrderedDict

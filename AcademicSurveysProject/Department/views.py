@@ -1,5 +1,6 @@
-from .models import Department
 from django.views.generic import CreateView
+
+from .models import Department
 
 
 class DepartmentCreate(CreateView):

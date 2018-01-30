@@ -1,5 +1,6 @@
-from .models import AcademicYear
 from django.views.generic import CreateView
+
+from .models import AcademicYear
 
 
 class AcademicYearCreate(CreateView):

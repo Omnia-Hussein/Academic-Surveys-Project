@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.urls import reverse_lazy
+
 from .views import SurveyQuestionCreate, SurveyList, SurveyQuestionUpdate
 
 app_name = 'survey'

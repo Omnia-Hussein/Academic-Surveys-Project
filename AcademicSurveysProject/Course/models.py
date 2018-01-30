@@ -1,4 +1,5 @@
 from django.db import models
+
 from AcademicYear.models import AcademicYear
 from Department.models import Department
 

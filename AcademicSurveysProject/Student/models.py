@@ -1,10 +1,11 @@
-from django.db import models
 from django.conf import settings
-from django.dispatch import receiver
+from django.db import models
 from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
+from AcademicYear.models import AcademicYear
 from Course.models import Course
 from Department.models import Department
-from AcademicYear.models import AcademicYear
 from EducationalYear.models import EducationalYear
 
 

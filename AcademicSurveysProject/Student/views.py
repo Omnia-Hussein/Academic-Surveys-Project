@@ -1,13 +1,11 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse
-from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSet
-from extra_views.generic import GenericInlineFormSet
-from django.conf import settings
-from .models import Student
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
-from .forms import StudentForm
+
 from Home.forms import UserCreate, UserUpdate
+from .forms import StudentForm
+from .models import Student
 
 
 class StudentRead(DetailView):

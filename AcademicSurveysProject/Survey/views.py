@@ -1,13 +1,10 @@
 from django.db import transaction
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-# from .forms import SurveyForm, QuestionForm
-from extra_views import CreateWithInlinesView
-from .models import Survey
 from django.views.generic import CreateView, ListView, UpdateView
-from django.contrib import messages
+
 from Question.forms import QuestionFormSet
-from braces.views import MultiplePermissionsRequiredMixin
+# from .forms import SurveyForm, QuestionForm
+from .models import Survey
 
 
 # class SurveyCreate(CreateWithInlinesView):
