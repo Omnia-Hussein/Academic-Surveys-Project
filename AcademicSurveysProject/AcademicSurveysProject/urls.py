@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^educational_year/', include('EducationalYear.urls')),
     url(r'^department/', include('Department.urls')),
     url(r'^course/', include('Course.urls')),
+    url(r'^response/', include('Response.urls')),
 ]

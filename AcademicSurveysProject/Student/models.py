@@ -47,7 +47,6 @@ class Student(models.Model):
         related_name='students',
     )
 
-    @property
     def __str__(self):
         return self.user.username
 

@@ -87,7 +87,7 @@ class Question(models.Model):
     class Meta(object):
         verbose_name = _('question')
         verbose_name_plural = _('questions')
-        ordering = ('order',)
+        ordering = ('survey', 'order',)
 
     def save(self, *args, **kwargs):
         if self.type in [Question.RADIO, Question.SELECT,
@@ -357,7 +357,7 @@ class Question(models.Model):
         return choices_tuple
 
     def __str__(self):
-        msg = u"Question '{}' ".format(self.text)
+        msg = u"Question '{}' ".format(self.body)
         if self.required:
             msg += u"(*) "
         msg += u"{}".format(self.get_clean_choices())

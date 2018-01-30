@@ -8,6 +8,10 @@ AcademicSurveysProject/.idea/**/tasks.xml
 .idea/**/tasks.xml
 AcademicSurveysProject/.idea/dictionaries
 .idea/dictionaries
+**/__pychache__/
+**/workspace.xml
+**/workspace.xml__jb_old__
+**/workspace.xml__jb_tmp__
 
 # Sensitive or high-churn files:
 AcademicSurveysProject/.idea/**/dataSources/

@@ -7,6 +7,7 @@ from .models import Survey
 from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
 from Question.forms import QuestionFormSet
+from braces.views import MultiplePermissionsRequiredMixin
 
 
 # class SurveyCreate(CreateWithInlinesView):

@@ -19,8 +19,8 @@ standard_library.install_aliases()
 
 class Response(models.Model):
     """
-        A Response object is a collection of questions and answers with a
-        unique interview uuid.
+    A Response object is a collection of questions and answers with a
+    unique interview uuid.
     """
 
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -31,6 +31,10 @@ class Response(models.Model):
     class Meta(object):
         verbose_name = _('response')
         verbose_name_plural = _('responses')
+        unique_together = (
+            'survey',
+            'student',
+        )
 
     def __str__(self):
         msg = u"Response to {} by {}".format(self.survey, self.student.user)
