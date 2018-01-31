@@ -1,11 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
+from AcademicSurveysProject.decorators import admin_required
 from Home.forms import UserCreate, UserUpdate
 from .forms import StudentForm
 from .models import Student
+
+
+class StudentOption(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'Student/student_option.html')
 
 
 class StudentRead(DetailView):
@@ -19,6 +28,7 @@ class StudentList(ListView):
     template_name = 'Student/student_list.html'
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class StudentCreate(SuccessMessageMixin, CreateView):
     """
     Creates new Student along with associated user
@@ -54,7 +64,7 @@ class StudentCreate(SuccessMessageMixin, CreateView):
 
 class StudentUpdate(SuccessMessageMixin, UpdateView):
     """
-    Update teacher profile along with associated user
+    Update Student profile along with associated user
     """
     model = Student
     template_name = 'Professor/professor_update.html'

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Department #{{ department.id }}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Department #{{ department.id }}
+        <a href="{% url 'department:update' department.id %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-pencil"></span> Update
+        </a>
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ department.name }}</td>
+        </tr>
+        <tr>
+            <th>Courses</th>
+            <td>{{ department.courses }}</td>
+        </tr>
+        <tr>
+            <th>Students</th>
+            <td>{{ department.students }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -8,13 +8,17 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Survey #{{ survey.id }}</h2>
+    <h2>Survey #{{ survey.id }}
+        <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger pull-right">
+            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after lunching)
+        </a>
+    </h2>
     {% for question in questions %}
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h3>Question #{{ forloop.counter }}</h3>
             <p>{{ question.body }}</p>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
             <canvas id="{{ question.id }}" width="300" height="300"></canvas>
         </div>
     {% endfor %}

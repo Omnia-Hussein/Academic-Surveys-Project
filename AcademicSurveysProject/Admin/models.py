@@ -11,7 +11,6 @@ class Admin(models.Model):
         on_delete=models.CASCADE,
     )
 
-    @property
     def __str__(self):
         return self.user.username
 

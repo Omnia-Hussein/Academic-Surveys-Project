@@ -1,11 +1,27 @@
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.views import View
 from django.views.generic import CreateView, ListView
 
 from Answer.forms import AnswerFormSet
 from Question.models import Question
 from Survey.models import Survey
 from .models import Response
+
+
+class ResponseRead(View):
+    def get(self, request, *args, **kwargs):
+        response = get_object_or_404(Response, pk=kwargs['pk'])
+        survey = response.survey
+        questions = survey.questions.all()
+        answers = response.answers.all()
+        context = {
+            'response': response,
+            'survey': survey,
+            'questions': questions,
+            'answers': answers,
+        }
+        return render(request, 'Response/response_read.html', context)
 
 
 class ResponseList(ListView):

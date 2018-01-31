@@ -17,13 +17,19 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
+from Home.views import change_password
+
+handler403 = 'Home.views.permission_denied'
+
 urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'Home/user_login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^change_password/$', change_password, name='change_password'),
+    url(r'^administrator/', admin.site.urls),
     # url(r'^$', views.home, name='home'),
     url(r'^student/', include('Student.urls')),
     url(r'^professor/', include('Professor.urls')),
+    url(r'^admin/', include('Admin.urls')),
     url(r'^survey/', include('Survey.urls')),
     url(r'^academic_year/', include('AcademicYear.urls')),
     url(r'^educational_year/', include('EducationalYear.urls')),

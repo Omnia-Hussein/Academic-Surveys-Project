@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 
 {% block title %}
-    Create educational year
+    Add educational year
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
             <button type="submit" class="btn btn-success">
                 <span class="glyphicon glyphicon-ok"></span> Save
             </button>
-            <a href="{% url 'professor:create' %}" class="btn btn-default">Cancel</a>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-default">Cancel</a>
         </div>
     </form>
 {% endblock %}

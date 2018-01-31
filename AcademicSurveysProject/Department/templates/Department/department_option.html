@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Department option
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Department option
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Department list</th>
+            <td><a href="{% url 'department:list' %}">Click here</a></td>
+        </tr>
+        <tr>
+            <th>Department create</th>
+            <td><a href="{% url 'department:create' %}">Click here</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

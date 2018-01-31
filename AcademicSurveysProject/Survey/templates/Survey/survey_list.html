@@ -25,11 +25,11 @@
     <tbody data-link="row" class="rowlink">
         {% for survey in survey_list %}
             <tr>
-            <td><a href="{% url 'professor:read' survey.id %}">{{ survey.id }}</a></td>
-            <td>{{ survey.name }}</td>
-            <td>{{ survey.professor }}</td>
-            <td>{{ survey.course }}</td>
-        </tr>
+                <td><a href="{% url 'survey:read' survey.id %}">{{ survey.id }}</a></td>
+                <td>{{ survey.name }}</td>
+                <td>{{ survey.professor }}</td>
+                <td>{{ survey.course }}</td>
+            </tr>
         {% empty %}
         <tr>
             <td colspan="6" class="text-center">No result</td>

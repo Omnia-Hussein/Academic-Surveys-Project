@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Course list
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Course list
+        <a href="{% url 'course:create' %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> Add course
+        </a>
+    </h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID number</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Is active</th>
+            <th>Academic year</th>
+            <th>Department</th>
+        </tr>
+        </thead>
+        <tbody data-link="row" class="rowlink">
+        {% for course in course_list %}
+            <tr>
+                <td><a href="{% url 'course:read' course.id %}">{{ course.id }}</a></td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.is_active }}</td>
+                <td>{{ course.academic_year }}</td>
+                <td>{{ course.department }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No result</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Academic year option
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Academic year option
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Academic year list</th>
+            <td><a href="{% url 'academic_year:list' %}">Click here</a></td>
+        </tr>
+        <tr>
+            <th>Academic year create</th>
+            <td><a href="{% url 'academic_year:create' %}">Click here</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

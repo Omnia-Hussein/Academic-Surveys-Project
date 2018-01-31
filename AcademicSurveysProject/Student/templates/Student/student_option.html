@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Student option
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Student option
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Student list</th>
+            <td><a href="{% url 'student:list' %}">Click here</a></td>
+        </tr>
+        <tr>
+            <th>Student create</th>
+            <td><a href="{% url 'student:create' %}">Click here</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

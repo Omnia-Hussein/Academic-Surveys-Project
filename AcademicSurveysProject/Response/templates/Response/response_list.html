@@ -5,12 +5,8 @@
 {% endblock %}
 
 {% block content %}
-
     <h2>
-    Response list
-{#    <a href="{% url 'response:create' %}" class="btn btn-primary pull-right">#}
-{#      <span class="glyphicon glyphicon-plus"></span> Add survey#}
-{#    </a>#}
+        Response list
     </h2>
 
     <table class="table table-hover">
@@ -26,11 +22,11 @@
     <tbody data-link="row" class="rowlink">
         {% for response in response_list %}
             <tr>
-            <td><a href="{% url 'professor:read' response.id %}">{{ response.id }}</a></td>
+                <td><a href="{% url 'response:read' response.id %}">{{ response.id }}</a></td>
             <td>{{ response.creation_date }}</td>
             <td>{{ response.update_date }}</td>
-            <td>{{ response.survey }}</td>
-            <td>{{ response.student }}</td>
+                <td>{{ response.survey }} #{{ response.survey.id }}</td>
+                <td>{{ response.student }} #{{ response.student.user.id_number }}</td>
         </tr>
         {% empty %}
         <tr>

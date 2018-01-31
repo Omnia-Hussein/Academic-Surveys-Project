@@ -8,28 +8,9 @@ from Question.forms import QuestionFormSet
 from .models import Survey
 
 
-# class SurveyCreate(CreateWithInlinesView):
-#     model = Survey
-#     fields = ['name', 'description', 'due_date', 'educational_year', 'course']
-#     context_object_name = 'survey'
-#     inlines = [QuestionSurveyInline,]
-#     template_name = 'Survey/survey_form.html'
-#
-#     # def get_success_url(self):
-#     #     return '/inlines/%i' % self.object.pk
-
-# class SurveyCreate(CreateView):
-#     model = Survey
-#     fields = ('name', 'description', 'due_date', 'is_active', 'educational_year', 'course')
-#     template_name = 'Survey/survey_form.html'
-#
-#     def form_valid(self, form):
-#         survey = form.save(commit=False)
-#         survey.professor = self.request.user
-#         survey.save()
-#         messages.success(self.request, 'The survey was created with success! Go ahead and add some questions now.')
-#         return redirect('/')
-#         # return redirect('survey:change', survey.pk)
+class SurveyOption(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'Survey/survey_option.html')
 
 
 class SurveyList(ListView):

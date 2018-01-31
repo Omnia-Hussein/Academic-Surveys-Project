@@ -5,7 +5,11 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    Create survey
+    {% if survey.id %}
+        Update survey
+    {% else %}
+        Create survey
+    {% endif %}
 {% endblock %}
 
 {#{% block content %}#}
@@ -48,7 +52,11 @@
 {#{% endblock %}#}
 
 {% block content %}
-    <h2>Add survey</h2>
+    {% if survey.id %}
+        <h2>Update survey #{{ survey.id }}</h2>
+    {% else %}
+        <h2>Add survey</h2>
+    {% endif %}
     <form method="post" novalidate>
         {% csrf_token %}
 {#            {% include 'form.html' with form=form %}#}

@@ -1,6 +1,7 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from Home.forms import UserCreate, UserUpdate
@@ -8,26 +9,9 @@ from .forms import ProfessorForm
 from .models import Professor
 
 
-#
-# class ItemInline(InlineFormSet):
-#     model = settings.AUTH_USER_MODEL
-#     fields = '__all__'
-#
-#
-# class TagInline(GenericInlineFormSet):
-#     model = settings.AUTH_USER_MODEL
-#     fields = '__all__'
-#
-#
-# class CreateProfessorView(CreateWithInlinesView):
-#     model = Professor
-#     inlines = [ItemInline]
-#     fields = '__all__'
-
-#
-# class ProfessorCreate(CreateView):
-#     model = Professor
-#     fields = '__all__'
+class ProfessorOption(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'Professor/professor_option.html')
 
 
 class ProfessorRead(DetailView):
@@ -76,7 +60,7 @@ class ProfessorCreate(SuccessMessageMixin, CreateView):
 
 class ProfessorUpdate(SuccessMessageMixin, UpdateView):
     """
-    Update teacher profile along with associated user
+    Update Professor profile along with associated user
     """
     model = Professor
     template_name = 'Professor/professor_update.html'

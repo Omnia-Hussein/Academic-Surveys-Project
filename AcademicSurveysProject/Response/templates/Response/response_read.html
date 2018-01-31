@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load index %}
+
+{% block title %}
+    Response #{{ response.id }}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Response #{{ response.id }}
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Creation date</th>
+            <td>{{ response.creation_date }}</td>
+        </tr>
+        <tr>
+            <th>Update date</th>
+            <td>{{ response.update_date }}</td>
+        </tr>
+        <tr>
+            <th>By student</th>
+            <td><a href="{% url 'student:read' response.student.user.id_number %}">{{ response.student }}</a></td>
+        </tr>
+        <tr>
+            <th>Survey</th>
+            <td><a href="{% url 'survey:read' survey.id %}">{{ survey.name }}</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Question</th>
+            <th>Vote</th>
+        </tr>
+        {% for question in questions %}
+            {% with answers|index:forloop.counter0 as answer %}
+                <tr>
+                    <td>{{ question.body }}</td>
+                    <td>{{ answer.body }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

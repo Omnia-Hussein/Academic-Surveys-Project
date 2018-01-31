@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Educational year #{{ educationalyear.id }}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Educational year #{{ educationalyear.id }}
+        <a href="{% url 'educational_year:update' educationalyear.id %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-pencil"></span> Update
+        </a>
+    </h2>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>Start year</th>
+            <td>{{ educationalyear.start_year }}</td>
+        </tr>
+        <tr>
+            <th>End year</th>
+            <td>{{ educationalyear.end_year }}</td>
+        </tr>
+        <tr>
+            <th>Surveys</th>
+            <td>{{ educationalyear.surveys }}</td>
+        </tr>
+        <tr>
+            <th>Students</th>
+            <td>{{ educationalyear.students }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

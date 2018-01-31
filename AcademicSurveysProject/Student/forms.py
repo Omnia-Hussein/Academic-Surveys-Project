@@ -12,4 +12,5 @@ class StudentForm(forms.ModelForm):
             'educational_year',
             'academic_year',
             'department',
+            'courses',
         )

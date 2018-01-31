@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Department list
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Department list
+        <a href="{% url 'department:create' %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> Add department
+        </a>
+    </h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID number</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody data-link="row" class="rowlink">
+        {% for department in department_list %}
+            <tr>
+                <td><a href="{% url 'department:read' department.id %}">{{ department.id }}</a></td>
+                <td>{{ department.name }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No result</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

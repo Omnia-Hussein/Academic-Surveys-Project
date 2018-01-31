@@ -1,11 +1,13 @@
 from django.conf.urls import url
 
-from .views import EducationalYearCreate
+from .views import EducationalYearCreate, EducationalYearList, EducationalYearOption, EducationalYearRead, \
+    EducationalYearUpdate
 
 app_name = 'educational_year'
 urlpatterns = [
-    # url(r'^$', ProfessorList.as_view(), name="list"),
-    # url(r'^(?P<slug>\d+)$', ProfessorRead.as_view(), name="read"),
-    url(r'^create$', EducationalYearCreate.as_view(success_url='professor:list'), name="create"),
-    # url(r'^(?P<slug>\d+)/update$', ProfessorUpdate.as_view(), name="update"),
+    url(r'^$', EducationalYearOption.as_view(), name="option"),
+    url(r'^list$', EducationalYearList.as_view(), name="list"),
+    url(r'^(?P<pk>\d+)$', EducationalYearRead.as_view(), name="read"),
+    url(r'^create$', EducationalYearCreate.as_view(success_url='educational_year:list'), name="create"),
+    url(r'^(?P<pk>\d+)/update$', EducationalYearUpdate.as_view(success_url='educational_year:list'), name="update"),
 ]
