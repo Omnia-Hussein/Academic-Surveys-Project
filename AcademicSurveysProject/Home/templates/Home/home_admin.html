@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block css-files %}
+    <style>
+        .home-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+
+        .home-template img {
+            width: 25%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="home-template">
+                <img src="{% static 'images/favicon.png' %}" alt="Academic Surveys Project logo"/>
+                <h1>
+                    Welcome!</h1>
+                <div class="home-details">
+                    You're an admin, please take care!
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

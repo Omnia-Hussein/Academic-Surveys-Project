@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^change_password/$', change_password, name='change_password'),
     url(r'^administrator/', admin.site.urls),
-    # url(r'^$', views.home, name='home'),
+    url(r'^', include('Home.urls')),
     url(r'^student/', include('Student.urls')),
     url(r'^professor/', include('Professor.urls')),
     url(r'^admin/', include('Admin.urls')),
