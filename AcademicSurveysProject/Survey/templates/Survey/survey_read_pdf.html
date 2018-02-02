@@ -1,0 +1,121 @@
+{% load index %}
+{% load division %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>ASP - Survey #{{ survey.id }}</title>
+    <style type="text/css">
+        body {
+            font-weight: 200;
+            font-size: 14px;
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 100;
+            /* text-align: right;*/
+            padding: 10px 20px 0px 20px;
+        }
+
+        .title span {
+            color: #007cae;
+        }
+
+        .details {
+            padding: 10px 20px 0px 20px;
+            text-align: left !important;
+            /*margin-left: 40%;*/
+        }
+
+        .hrItem {
+            border: none;
+            height: 1px;
+            /* Set the hr color */
+            color: #333; /* old IE */
+            background-color: #fff; /* Modern Browsers */
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+    <div class='header'>
+        <p class='title'>ASP - Survey #{{ survey.id }}</p>
+        <table>
+            <tbody>
+            <tr>
+                <th>By professor</th>
+                <td>{{ survey.professor.user.name }}</td>
+            </tr>
+            <tr>
+                <th>Target course</th>
+                <td>{{ survey.course.name }}</td>
+            </tr>
+            <tr>
+                <th>Who should complete the survey</th>
+                <td>{{ total_number_of_students }}</td>
+            </tr>
+            <tr>
+                <th>Who completed the survey</th>
+                <td>{{ voted }}</td>
+            </tr>
+            <tr>
+                <th>Who didn't complete the survey</th>
+                <td>{{ not_voted }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Following statistics are for who completed the survey only</p>
+    </div>
+    <hr class='hrItem'/>
+    <div>
+
+        {% for question in questions %}
+            <table>
+                <tbody>
+                <tr>
+                    <th>Question #{{ forloop.counter }}</th>
+                    <td>{{ question.body }}</td>
+                </tr>
+                {% with answers|index:forloop.counter0 as answer %}
+                    <tr>
+                        <th>Voted '1':</th>
+                        <td>{{ answer|index:1 }}, i.e. {% percentage answer|index:1 voted %}%</td>
+                    </tr>
+                    <tr>
+                        <th>Voted '2':</th>
+                        <td>{{ answer|index:2 }}, i.e. {% percentage answer|index:2 voted %}%</td>
+                    </tr>
+                    <tr>
+                        <th>Voted '3':</th>
+                        <td>{{ answer|index:3 }}, i.e. {% percentage answer|index:3 voted %}%</td>
+                    </tr>
+                    <tr>
+                        <th>Voted '4':</th>
+                        <td>{{ answer|index:4 }}, i.e. {% percentage answer|index:4 voted %}%</td>
+                    </tr>
+                    <tr>
+                        <th>Voted '5':</th>
+                        <td>{{ answer|index:5 }}, i.e. {% percentage answer|index:5 voted %}%</td>
+                    </tr>
+                    <tr>
+                        <th>Didn't vote:</th>
+                        <td>{{ answer|index:0 }}, i.e. {% percentage answer|index:0 voted %}%</td>
+                    </tr>
+                {% endwith %}
+                </tbody>
+            </table>
+            <hr class='hrItem'/>
+        {% endfor %}
+
+    </div>
+</div>
+</body>
+</html>

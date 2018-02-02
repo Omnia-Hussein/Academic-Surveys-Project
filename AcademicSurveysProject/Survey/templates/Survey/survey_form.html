@@ -79,6 +79,9 @@
                     </tr>
                     </thead>
                 {% endif %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
                 <tr class="{% cycle 'row1' 'row2' %} formset_row">
                     {% for field in form.visible_fields %}
                         <td>

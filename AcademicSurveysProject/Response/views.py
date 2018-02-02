@@ -1,7 +1,8 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from Answer.forms import AnswerFormSet
 from Question.models import Question
@@ -83,70 +84,42 @@ class ResponseAnswerCreate(CreateView):
         return super(ResponseAnswerCreate, self).form_valid(form)
 
 
-# class ResponseAnswerUpdate(UpdateView):
-#     template_name = 'Response/response_form.html'
-#     model = Response
-#     fields = []
-#     success_url = reverse_lazy('response:list')
-#
-#     def get(self, request, *args, **kwargs):
-#         """
-#         Handles GET requests and instantiates a blank version of the form.
-#         """
-#         if request.user.is_authenticated():
-#             if request.user.is_student:
-#                 if Response.objects.get(survey_id=self.kwargs['slug'], student_id=request.user.id):
-#                     self.object = get_object_or_404(Response, survey_id=self.kwargs['slug'],
-#                                                     student_id=self.request.user.id)
-#                     return self.render_to_response(self.get_context_data())
-#                 else:
-#                     return redirect('response:create', self.kwargs['slug'])
-#             # TODO: add page to redirect if processor or admin
-#         return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
-#
-#     def get_object(self):
-#         return get_object_or_404(Response, survey_id=self.kwargs['slug'], student_id=self.request.user.id)
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(ResponseAnswerUpdate, self).get_context_data(**kwargs)
-#         context['questions'] = Question.objects.filter(survey_id=self.kwargs['slug']).all()
-#         context['answers'] = AnswerFormSet(self.request.POST or None, instance=self.object)
-#         return context
-#
-#     def form_valid(self, form):
-#         context = self.get_context_data()
-#         answers = context['answers']
-#         with transaction.atomic():
-#             form.save()
-#             if answers.is_valid():
-#                 answers.save()
-#         return super(ResponseAnswerUpdate, self).form_valid(form)
+class ResponseAnswerUpdate(UpdateView):
+    template_name = 'Response/response_form.html'
+    model = Response
+    fields = []
+    success_url = reverse_lazy('response:list')
 
+    # def get(self, request, *args, **kwargs):
+    #     """
+    #     Handles GET requests and instantiates a blank version of the form.
+    #     """
+    #     if request.user.is_authenticated():
+    #         if request.user.is_student:
+    #             if Response.objects.get(survey_id=self.kwargs['slug'], student_id=request.user.id):
+    #                 self.object = get_object_or_404(Response, survey_id=self.kwargs['slug'],
+    #                                                 student_id=self.request.user.id)
+    #                 return self.render_to_response(self.get_context_data())
+    #             else:
+    #                 return redirect('response:create', self.kwargs['slug'])
+    #         # TODO: add page to redirect if processor or admin
+    #     return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
 
-# class ResponseAnswerUpdate(View):
-#     def render_the_template(self, request, **kwargs):
-#         response = get_object_or_404(Response, survey_id=kwargs['slug'], student_id=self.request.user.id)
-#         context = {
-#             'questions': Question.objects.filter(survey_id=kwargs['slug']),
-#             'answers': AnswerFormSetUpdate(queryset=Answer.objects.filter(response=response))
-#         }
-#         return render(request, 'Response/response_update.html', context)
-#
-#     def get(self, request, *args, **kwargs):
-#         if request.user.is_authenticated():
-#             if request.user.is_student:
-#                 if Response.objects.get(survey_id=kwargs['slug'], student_id=request.user.id):
-#                     return self.render_the_template(request, **kwargs)
-#                 else:
-#                     return redirect('response:create', kwargs['slug'])
-#             # TODO: add page to redirect if processor or admin
-#         return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
-#
-#     def post(self, request, *args, **kwargs):
-#         response = get_object_or_404(Response, survey_id=kwargs['slug'], student_id=self.request.user.id)
-#         response.save()
-#         answers = AnswerFormSetUpdate(self.request.POST)
-#         if answers.is_valid():
-#             response.save()
-#             answers.save()
-#         return redirect('response:list')
+    def get_object(self):
+        return get_object_or_404(Response, survey_id=self.kwargs['slug'], student_id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+        context = super(ResponseAnswerUpdate, self).get_context_data(**kwargs)
+        context['survey'] = Survey.objects.get(pk=self.kwargs['slug'])
+        context['questions'] = Question.objects.filter(survey_id=self.kwargs['slug']).all()
+        context['answers'] = AnswerFormSet(self.request.POST or None, instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        answers = context['answers']
+        with transaction.atomic():
+            form.save()
+            if answers.is_valid():
+                answers.save()
+        return super(ResponseAnswerUpdate, self).form_valid(form)

@@ -19,7 +19,10 @@ from django.contrib.auth import views as auth_views
 
 from Home.views import change_password
 
+handler400 = 'Home.views.bad_request'
 handler403 = 'Home.views.permission_denied'
+handler404 = 'Home.views.page_not_found'
+handler500 = 'Home.views.server_error'
 
 urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'Home/user_login.html'}, name='login'),

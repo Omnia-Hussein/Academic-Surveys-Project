@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load index %}
+{% load division %}
 
 {% block title %}
     Survey #{{ survey.id }}
@@ -9,14 +10,45 @@
 
 {% block content %}
     <h2>Survey #{{ survey.id }}
-        <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger pull-right">
-            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after lunching)
+        <span class="pull-right"><a href="{% url 'survey:pdf' survey.id %}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-export"></span> Export PDF
         </a>
+        <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger">
+            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after lunching)
+        </a></span>
+
     </h2>
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>No. of students who should complete the survey</th>
+            <td>{{ total_number_of_students }}</td>
+        </tr>
+        <tr>
+            <th>No. of students who completed the survey</th>
+            <td>{{ voted }}</td>
+        </tr>
+        <tr>
+            <th>No. of students who didn't complete the survey</th>
+            <td>{{ not_voted }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Following statistics are for who completed the survey only</h3>
+
     {% for question in questions %}
         <div class="col-md-6 col-sm-6 col-xs-12">
             <h3>Question #{{ forloop.counter }}</h3>
             <p>{{ question.body }}</p>
+            {% with answers|index:forloop.counter0 as answer %}
+                <p><strong>Voted '1':</strong> {{ answer|index:1 }}, i.e. {% percentage answer|index:1 voted %}%</p>
+                <p><strong>Voted '2':</strong> {{ answer|index:2 }}, i.e. {% percentage answer|index:2 voted %}%</p>
+                <p><strong>Voted '3':</strong> {{ answer|index:3 }}, i.e. {% percentage answer|index:3 voted %}%</p>
+                <p><strong>Voted '4':</strong> {{ answer|index:4 }}, i.e. {% percentage answer|index:4 voted %}%</p>
+                <p><strong>Voted '5':</strong> {{ answer|index:5 }}, i.e. {% percentage answer|index:5 voted %}%</p>
+                <p><strong>Didn't vote:</strong> {{ answer|index:0 }}, i.e. {% percentage answer|index:0 voted %}%</p>
+            {% endwith %}
         </div>
         <div class="col-lg-4 col-md-5 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
             <canvas id="{{ question.id }}" width="300" height="300"></canvas>

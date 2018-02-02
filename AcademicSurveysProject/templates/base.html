@@ -85,7 +85,15 @@
         {% endblock %}
     </div>
 
-    <script src={% static 'js/jquery-1.12.4.min.js' %}></script>
+<footer class="footer">
+    {#        <div class="navbar navbar-fixed-bottom">#}
+    <div class="container">
+        <p class="text-muted">© 2018 Faculty of Engineering - Helwan University.</p>
+    </div>
+    {#        </div>#}
+</footer>
+
+<script src={% static 'js/jquery-1.12.4.min.js' %}></script>
     <script src={% static 'js/bootstrap.min.js' %}></script>
     <script src={% static 'js/jasny-bootstrap.min.js' %}></script>
     {% block js %}

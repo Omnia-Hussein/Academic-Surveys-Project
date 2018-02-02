@@ -85,6 +85,9 @@
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <th>{{ question.body }}</th>
                     {% with answers.forms|index:forloop.counter0 as form %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
                         {% for field in form.visible_fields %}
                                 <td>
         {#                             Include the hidden fields in the form#}
