@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Template #{{ template.id }}
+{% endblock %}
+
+{% block content %}
+    <h2>Template #{{ template.id }}
+        <a href="{% url 'template:update' template.id %}" class="btn btn-danger pull-right">
+            <span class="glyphicon glyphicon-pencil"></span> Update
+        </a>
+    </h2>
+    <h4>{{ template.name }}</h4>
+    <h6>Description: {{ template.description }}</h6>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Order</th>
+            <th>Body</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Choices</th>
+        </tr>
+        </thead>
+        <tbody data-link="row" class="rowlink">
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.order }}</td>
+                <td>{{ question.body }}</td>
+                <td>{{ question.type }}</td>
+                <td>{{ question.required }}</td>
+                <td>{{ question.choices }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No result</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

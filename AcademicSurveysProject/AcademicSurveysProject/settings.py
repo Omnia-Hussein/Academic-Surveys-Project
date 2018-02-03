@@ -35,8 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'reportlab',
-    'easy_pdf',
     'crispy_forms',
     'widget_tweaks',
     'Home',
@@ -154,6 +152,15 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+# Email configuration
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'customsmtp587@gmail.com'
+EMAIL_HOST_PASSWORD = 'thesuperadmin'
+EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Third party apps configuration
 

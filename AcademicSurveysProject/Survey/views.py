@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
-from Question.forms import QuestionFormSet
+from Question.forms import QuestionSurveyFormSet
 from Survey.utils import render_to_pdf
 from .models import Survey
 
@@ -28,7 +28,7 @@ class SurveyQuestionCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(SurveyQuestionCreate, self).get_context_data(**kwargs)
-        context['questions'] = QuestionFormSet(self.request.POST or None)
+        context['questions'] = QuestionSurveyFormSet(self.request.POST or None)
         return context
 
     def form_valid(self, form):
@@ -44,7 +44,7 @@ class SurveyQuestionCreate(CreateView):
         return super(SurveyQuestionCreate, self).form_valid(form)
 
     # def form_invalid(self, form):
-    #     questions = QuestionFormSet(self.request.POST or None)
+        #     questions = QuestionSurveyFormSet(self.request.POST or None)
     #     return self.render_to_response(self.get_context_data(form=form, questions=questions))
 
 
@@ -56,7 +56,7 @@ class SurveyQuestionUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(SurveyQuestionUpdate, self).get_context_data(**kwargs)
-        context['questions'] = QuestionFormSet(self.request.POST or None, instance=self.object)
+        context['questions'] = QuestionSurveyFormSet(self.request.POST or None, instance=self.object)
         return context
 
     def form_valid(self, form):
