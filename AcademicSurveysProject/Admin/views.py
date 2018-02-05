@@ -12,17 +12,20 @@ from .forms import AdminForm
 from .models import Admin
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class AdminOption(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'Admin/admin_option.html')
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class AdminRead(DetailView):
     model = Admin
     template_name = 'Admin/admin_read.html'
     slug_field = 'user__id_number'
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class AdminList(ListView):
     model = Admin
     template_name = 'Admin/admin_list.html'
@@ -62,6 +65,7 @@ class AdminCreate(SuccessMessageMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class AdminUpdate(SuccessMessageMixin, UpdateView):
     """
     Update Admin profile along with associated user

@@ -6,23 +6,26 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
-from AcademicSurveysProject.decorators import admin_required
+from AcademicSurveysProject.decorators import admin_required, admin_or_profile_student_required
 from Home.forms import UserCreate, UserUpdate
 from .forms import StudentForm
 from .models import Student
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class StudentOption(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'Student/student_option.html')
 
 
+@method_decorator([login_required, admin_or_profile_student_required], name='dispatch')
 class StudentRead(DetailView):
     model = Student
     template_name = 'Student/student_read.html'
     slug_field = 'user__id_number'
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class StudentList(ListView):
     model = Student
     template_name = 'Student/student_list.html'
@@ -62,12 +65,13 @@ class StudentCreate(SuccessMessageMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class StudentUpdate(SuccessMessageMixin, UpdateView):
     """
     Update Student profile along with associated user
     """
     model = Student
-    template_name = 'Professor/professor_update.html'
+    template_name = 'Student/student_update.html'
     form_class = StudentForm
     second_form_class = UserUpdate
     success_message = 'Student profile saved successfully'

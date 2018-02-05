@@ -141,6 +141,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "common-static"),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 # Custom Django auth settings
 
 AUTH_USER_MODEL = 'Home.User'

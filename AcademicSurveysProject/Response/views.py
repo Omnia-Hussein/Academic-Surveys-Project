@@ -1,10 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
+from AcademicSurveysProject.decorators import admin_or_response_student_owner_required, response_student_owner_required, \
+    admin_required, response_student_course_required
 from Answer.forms import AnswerFormSet, AnswerForm
 from Answer.models import Answer
 from Question.models import Question
@@ -12,6 +16,7 @@ from Survey.models import Survey
 from .models import Response
 
 
+@method_decorator([login_required, admin_or_response_student_owner_required], name='dispatch')
 class ResponseRead(View):
     def get(self, request, *args, **kwargs):
         response = get_object_or_404(Response, pk=kwargs['pk'])
@@ -27,14 +32,17 @@ class ResponseRead(View):
         return render(request, 'Response/response_read.html', context)
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class ResponseList(ListView):
     model = Response
 
 
+@method_decorator([login_required, response_student_course_required], name='dispatch')
 class ResponseAnswerCreate(CreateView):
     template_name = 'Response/response_form.html'
     model = Response
     fields = []
+    success_url = reverse_lazy('home:option')
 
     # def get(self, request, *args, **kwargs):
     #     """
@@ -64,8 +72,7 @@ class ResponseAnswerCreate(CreateView):
             #                                        max_num=number, validate_max=True)
             # context['answers'] = answer_formset(initial=initial)
             context['answers'] = inlineformset_factory(Response, Answer, form=AnswerForm, can_delete=False,
-                                                       extra=number, max_num=number,
-                                                       validate_max=True)
+                                                       extra=number, max_num=number, validate_max=True)
         return context
 
     def form_valid(self, form):
@@ -87,26 +94,12 @@ class ResponseAnswerCreate(CreateView):
         return super(ResponseAnswerCreate, self).form_valid(form)
 
 
+@method_decorator([login_required, response_student_owner_required], name='dispatch')
 class ResponseAnswerUpdate(UpdateView):
     template_name = 'Response/response_form.html'
     model = Response
     fields = []
-    success_url = reverse_lazy('response:list')
-
-    # def get(self, request, *args, **kwargs):
-    #     """
-    #     Handles GET requests and instantiates a blank version of the form.
-    #     """
-    #     if request.user.is_authenticated():
-    #         if request.user.is_student:
-    #             if Response.objects.get(survey_id=self.kwargs['slug'], student_id=request.user.id):
-    #                 self.object = get_object_or_404(Response, survey_id=self.kwargs['slug'],
-    #                                                 student_id=self.request.user.id)
-    #                 return self.render_to_response(self.get_context_data())
-    #             else:
-    #                 return redirect('response:create', self.kwargs['slug'])
-    #         # TODO: add page to redirect if processor or admin
-    #     return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
+    success_url = reverse_lazy('home:option')
 
     def get_object(self):
         return get_object_or_404(Response, survey_id=self.kwargs['slug'], student_id=self.request.user.id)

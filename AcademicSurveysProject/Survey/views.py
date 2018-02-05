@@ -1,30 +1,45 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
+from AcademicSurveysProject.decorators import professor_required, survey_professor_owner_required, \
+    admin_required, admin_or_survey_professor_owner_required
+from Course.models import Course
 from Question.forms import QuestionSurveyFormSet
+from Student.models import Student
 from Survey.utils import render_to_pdf
 from .models import Survey
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class SurveyOption(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'Survey/survey_option.html')
 
 
+@method_decorator([login_required, admin_required], name='dispatch')
 class SurveyList(ListView):
     model = Survey
 
 
+@method_decorator([login_required, professor_required], name='dispatch')
 class SurveyQuestionCreate(CreateView):
     template_name = 'Survey/survey_form.html'
     model = Survey
     fields = ['name', 'description', 'due_date', 'is_active', 'course', 'educational_year', ]
+
+    def get_form(self, form_class=None):
+        form = super(SurveyQuestionCreate, self).get_form()
+        form.fields['course'].queryset = Course.objects.filter(professors__user_id=self.request.user.id)
+        return form
 
     def get_context_data(self, **kwargs):
         context = super(SurveyQuestionCreate, self).get_context_data(**kwargs)
@@ -41,18 +56,30 @@ class SurveyQuestionCreate(CreateView):
             if questions.is_valid():
                 questions.instance = self.object
                 questions.save()
+                # to send notification emails
+                course = self.object.course
+                students = Student.objects.filter(courses=course).all()
+                for student in students:
+                    send_mail('Created survey', 'There is s survey which has been created, please visit the website',
+                              'customsmtp587@gmail.com', [student.user.email])
         return super(SurveyQuestionCreate, self).form_valid(form)
 
-    # def form_invalid(self, form):
+        # def form_invalid(self, form):
         #     questions = QuestionSurveyFormSet(self.request.POST or None)
-    #     return self.render_to_response(self.get_context_data(form=form, questions=questions))
+        #     return self.render_to_response(self.get_context_data(form=form, questions=questions))
 
 
+@method_decorator([login_required, survey_professor_owner_required], name='dispatch')
 class SurveyQuestionUpdate(UpdateView):
     template_name = 'Survey/survey_form.html'
     model = Survey
-    fields = ['name', 'description', 'due_date', 'is_active', ]
+    fields = ['name', 'description', 'due_date', 'is_active', 'course', 'educational_year', ]
     success_url = reverse_lazy('survey:list')
+
+    def get_form(self, form_class=None):
+        form = super(SurveyQuestionUpdate, self).get_form()
+        form.fields['course'].queryset = Course.objects.filter(professors__user_id=self.request.user.id)
+        return form
 
     def get_context_data(self, **kwargs):
         context = super(SurveyQuestionUpdate, self).get_context_data(**kwargs)
@@ -68,9 +95,21 @@ class SurveyQuestionUpdate(UpdateView):
             if questions.is_valid():
                 questions.instance = self.object
                 questions.save()
+                # to send notification emails
+                course = self.object.course
+                students = Student.objects.filter(courses=course).all()
+                # datatuple = ()
+                for student in students:
+                    send_mail('Updated survey', 'There is s survey which has been updated, please visit the website',
+                              'customsmtp587@gmail.com', [student.user.email])
+                    #     datatuple += (('Updated survey',
+                    #                    'There is s survey which has been updated, please visit the website',
+                    #                    'customsmtp587@gmail.com', [student.user.email]))
+                    # send_mass_mail(datatuple)
         return super(SurveyQuestionUpdate, self).form_valid(form)
 
 
+@method_decorator([login_required, admin_or_survey_professor_owner_required], name='dispatch')
 class SurveyRead(View):
     def get(self, request, *args, **kwargs):
         survey = get_object_or_404(Survey, pk=kwargs['pk'])
@@ -95,6 +134,7 @@ class SurveyRead(View):
         return render(request, 'Survey/survey_read.html', context)
 
 
+@method_decorator([login_required, admin_or_survey_professor_owner_required], name='dispatch')
 class SurveyReadPDF(View):
     def get(self, request, *args, **kwargs):
         survey = get_object_or_404(Survey, pk=kwargs['pk'])

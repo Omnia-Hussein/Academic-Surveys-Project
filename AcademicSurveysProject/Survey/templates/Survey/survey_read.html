@@ -10,12 +10,16 @@
 
 {% block content %}
     <h2>Survey #{{ survey.id }}
-        <span class="pull-right"><a href="{% url 'survey:pdf' survey.id %}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-export"></span> Export PDF
-        </a>
-        <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger">
-            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after launching)
-        </a></span>
+        <span class="pull-right">
+            <a href="{% url 'survey:pdf' survey.id %}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-export"></span> Export PDF
+            </a>
+            {% if request.user.is_professor %}
+                <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger">
+                <span class="glyphicon glyphicon-pencil"></span> Update (don't update after launching)
+            </a>
+            {% endif %}
+        </span>
 
     </h2>
     <table class="table table-hover">

@@ -17,7 +17,6 @@ class QuestionTemplateForm(ModelForm):
         fields = ['order', 'body', 'type', 'required', 'choices', 'template', ]
 
 
-QuestionSurveyFormSet = inlineformset_factory(Survey, Question, form=QuestionSurveyForm, extra=1, can_delete=True,
-                                              min_num=1)
-QuestionTemplateFormSet = inlineformset_factory(Template, Question, form=QuestionTemplateForm, extra=1, can_delete=True,
+QuestionSurveyFormSet = inlineformset_factory(Survey, Question, form=QuestionSurveyForm, can_delete=True, min_num=1)
+QuestionTemplateFormSet = inlineformset_factory(Template, Question, form=QuestionTemplateForm, can_delete=True,
                                                 min_num=1)

@@ -10,9 +10,11 @@
 
     <h2>
         Response #{{ response.id }}
-        <a href="{% url 'response:update' survey.id %}" class="btn btn-primary pull-right">
-            <span class="glyphicon glyphicon-pencil"></span> Update
-        </a>
+        {% if request.user.is_student %}
+            <a href="{% url 'response:update' survey.id %}" class="btn btn-primary pull-right">
+                <span class="glyphicon glyphicon-pencil"></span> Update
+            </a>
+        {% endif %}
     </h2>
 
     <table class="table table-hover">

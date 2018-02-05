@@ -9,9 +9,11 @@
 {% block content %}
     <h2>Template #{{ template.id }}
         <span class="pull-right">
+            {% if request.user.is_professor %}
             <a href="{% url 'template:survey' template.id %}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus"></span> Create survey from this template
             </a>
+            {% endif %}
             <a href="{% url 'template:update' template.id %}" class="btn btn-danger">
                 <span class="glyphicon glyphicon-pencil"></span> Update
             </a>

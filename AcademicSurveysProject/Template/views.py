@@ -1,12 +1,15 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
+from AcademicSurveysProject.decorators import admin_or_professor_required, professor_required
 from Course.models import Course
 from EducationalYear.models import EducationalYear
 from Question.forms import QuestionTemplateFormSet
@@ -15,15 +18,18 @@ from Survey.models import Survey
 from .models import Template
 
 
+@method_decorator([login_required, admin_or_professor_required], name='dispatch')
 class TemplateOption(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'Template/template_option.html')
 
 
+@method_decorator([login_required, admin_or_professor_required], name='dispatch')
 class TemplateList(ListView):
     model = Template
 
 
+@method_decorator([login_required, admin_or_professor_required], name='dispatch')
 class TemplateQuestionCreate(CreateView):
     template_name = 'Template/template_form.html'
     model = Template
@@ -50,6 +56,7 @@ class TemplateQuestionCreate(CreateView):
         #     return self.render_to_response(self.get_context_data(form=form, questions=questions))
 
 
+@method_decorator([login_required, admin_or_professor_required], name='dispatch')
 class TemplateQuestionUpdate(UpdateView):
     template_name = 'Template/template_form.html'
     model = Template
@@ -73,6 +80,7 @@ class TemplateQuestionUpdate(UpdateView):
         return super(TemplateQuestionUpdate, self).form_valid(form)
 
 
+@method_decorator([login_required, admin_or_professor_required], name='dispatch')
 class TemplateRead(View):
     def get(self, request, *args, **kwargs):
         template = get_object_or_404(Template, pk=kwargs['pk'])
@@ -84,6 +92,7 @@ class TemplateRead(View):
         return render(request, 'Template/template_read.html', context)
 
 
+@method_decorator([login_required, professor_required], name='dispatch')
 class TemplateSurvey(View):
     def get(self, request, *args, **kwargs):
         template = get_object_or_404(Template, pk=kwargs['pk'])
