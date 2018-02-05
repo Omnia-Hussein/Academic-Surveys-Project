@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.urls import reverse_lazy
 
-from .views import TemplateQuestionCreate, TemplateList, TemplateQuestionUpdate, TemplateRead, TemplateOption
+from .views import TemplateQuestionCreate, TemplateList, TemplateQuestionUpdate, TemplateRead, TemplateOption, \
+    TemplateSurvey
 
 app_name = 'template'
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     url(r'^create$', TemplateQuestionCreate.as_view(success_url=reverse_lazy('template:list')), name="create"),
     url(r'^(?P<pk>\d+)/update$', TemplateQuestionUpdate.as_view(success_url=reverse_lazy('template:list')),
         name="update"),
+    url(r'^(?P<pk>\d+)/survey', TemplateSurvey.as_view(), name="survey"),
 ]

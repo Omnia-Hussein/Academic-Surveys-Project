@@ -14,12 +14,16 @@
             <span class="glyphicon glyphicon-export"></span> Export PDF
         </a>
         <a href="{% url 'survey:update' survey.id %}" class="btn btn-danger">
-            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after lunching)
+            <span class="glyphicon glyphicon-pencil"></span> Update (don't update after launching)
         </a></span>
 
     </h2>
     <table class="table table-hover">
         <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ survey.name }}</td>
+        </tr>
         <tr>
             <th>No. of students who should complete the survey</th>
             <td>{{ total_number_of_students }}</td>
@@ -50,7 +54,7 @@
                 <p><strong>Didn't vote:</strong> {{ answer|index:0 }}, i.e. {% percentage answer|index:0 voted %}%</p>
             {% endwith %}
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+        <div class="asp-canvas-chart col-lg-4 col-md-5 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
             <canvas id="{{ question.id }}" width="300" height="300"></canvas>
         </div>
     {% endfor %}

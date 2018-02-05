@@ -5,11 +5,19 @@ from Survey.models import Survey
 from Template.models import Template
 
 
-class QuestionForm(ModelForm):
+class QuestionSurveyForm(ModelForm):
     class Meta:
         model = Question
         fields = ['order', 'body', 'type', 'required', 'choices', 'survey', ]
 
 
-QuestionSurveyFormSet = inlineformset_factory(Survey, Question, form=QuestionForm, extra=1, can_delete=True)
-QuestionTemplateFormSet = inlineformset_factory(Template, Question, form=QuestionForm, extra=1, can_delete=True)
+class QuestionTemplateForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = ['order', 'body', 'type', 'required', 'choices', 'template', ]
+
+
+QuestionSurveyFormSet = inlineformset_factory(Survey, Question, form=QuestionSurveyForm, extra=1, can_delete=True,
+                                              min_num=1)
+QuestionTemplateFormSet = inlineformset_factory(Template, Question, form=QuestionTemplateForm, extra=1, can_delete=True,
+                                                min_num=1)

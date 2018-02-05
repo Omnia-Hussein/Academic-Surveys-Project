@@ -51,7 +51,7 @@
         </tr>
         </thead>
         <tbody data-link="row" class="rowlink">
-        {% for survey in surveys_completed %}
+        {% for survey in surveys_inactive %}
             <tr>
                 <td><a href="{% url 'survey:read' survey.id %}">{{ survey.id }}</a></td>
                 <td>{{ survey.name }}</td>

@@ -1,10 +1,12 @@
 from django.db import transaction
+from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
-from Answer.forms import AnswerFormSet
+from Answer.forms import AnswerFormSet, AnswerForm
+from Answer.models import Answer
 from Question.models import Question
 from Survey.models import Survey
 from .models import Response
@@ -48,21 +50,22 @@ class ResponseAnswerCreate(CreateView):
     #     return redirect('/%s?next=%s' % (settings.LOGIN_URL, request.path))
 
     def get_context_data(self, **kwargs):
-        context = {'questions': Question.objects.filter(survey_id=self.kwargs['id']).all(),
-                   'survey': get_object_or_404(Survey, pk=self.kwargs['id'])}
+        context = {'survey': get_object_or_404(Survey, pk=self.kwargs['id']),
+                   'questions': Question.objects.filter(survey_id=self.kwargs['id']).all()}
         # context = super(ResponseAnswerCreate, self).get_context_data(**kwargs)
         if self.request.POST:
             context['answers'] = AnswerFormSet(self.request.POST)
         else:
-            initial = []
-            count = []
-            number = context['survey'].questions.count()
-            for i in range(number):
-                initial += [{'body': ''}]
-                count += [i]
-            context['answers'] = AnswerFormSet(initial=initial, )  # max_num=number, validate_max=True)
-            context['number'] = count
-        # context['questions_answers'] = zip(context['questions'], context['answers'])
+            # initial = []
+            number = context['questions'].count()
+            # for _ in range(number):
+            #     initial.append({'body': ''})
+            # answer_formset = inlineformset_factory(Response, Answer, form=AnswerForm, can_delete=False, extra=number,
+            #                                        max_num=number, validate_max=True)
+            # context['answers'] = answer_formset(initial=initial)
+            context['answers'] = inlineformset_factory(Response, Answer, form=AnswerForm, can_delete=False,
+                                                       extra=number, max_num=number,
+                                                       validate_max=True)
         return context
 
     def form_valid(self, form):

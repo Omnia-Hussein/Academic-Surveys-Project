@@ -1,10 +1,17 @@
+import datetime
+
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
+from Course.models import Course
+from EducationalYear.models import EducationalYear
 from Question.forms import QuestionTemplateFormSet
+from Question.models import Question
+from Survey.models import Survey
 from .models import Template
 
 
@@ -75,3 +82,20 @@ class TemplateRead(View):
             'questions': questions,
         }
         return render(request, 'Template/template_read.html', context)
+
+
+class TemplateSurvey(View):
+    def get(self, request, *args, **kwargs):
+        template = get_object_or_404(Template, pk=kwargs['pk'])
+        questions = template.questions.all()
+        educational_year = EducationalYear.objects.last()
+        course = Course.objects.filter(professors__user_id=request.user.id).first()
+        if not course:
+            raise PermissionDenied
+        survey = Survey.objects.create(name=template.name, description=template.description, is_active=False,
+                                       professor_id=request.user.id, educational_year_id=educational_year.id,
+                                       course_id=course.id, due_date=datetime.datetime.now())
+        for question in questions:
+            Question.objects.create(order=question.order, body=question.body, choices=question.choices,
+                                    type=question.type, required=question.required, survey_id=survey.id)
+        return redirect('survey:update', pk=survey.id)

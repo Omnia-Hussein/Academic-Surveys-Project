@@ -73,6 +73,7 @@ class Question(models.Model):
         (INTEGER, _(u'integer')),
     )
 
+    # if you made any change here, you should update Question forms + create survey using template survey
     body = models.TextField()
     order = models.IntegerField()
     required = models.BooleanField(default=True)
